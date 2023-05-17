@@ -6,11 +6,25 @@ import './Container.css';
 const Container = () => {
 
     const [currentNumber, setCurrentNumber] = useState('');
+    const [firstNumber, setFirstNumber] = useState('0');
 
     const toClickBtn = (evento) => {
         evento.preventDefault();
-        setCurrentNumber(evento.target.value);
-        console.log("teste => ", evento.target.value);
+        setCurrentNumber(prev => `${prev}${evento.target.value}`);
+    };
+
+    const toClickClear = () => {
+        setCurrentNumber('0');
+    };
+
+    const toSumNumbers = () => {
+        if(firstNumber === '0'){
+            setFirstNumber(currentNumber);
+            toClickClear();
+        }else{
+            const sum = Number(firstNumber)+Number(currentNumber);
+            setCurrentNumber(String(sum));
+        }
     };
 
     return(
@@ -18,7 +32,7 @@ const Container = () => {
             <div className='content'>
                 <Input value={currentNumber}/>
                 <div className='content__btn'>
-                    <Button label={'C'} clickBtn={toClickBtn}/>
+                    <Button label={'C'} clickBtn={toClickClear}/>
                     <Button label={'<'}/>
                     <Button label={'%'}/>
                     <Button label={'/'}/>
@@ -33,7 +47,10 @@ const Container = () => {
                     <Button label={'1'} value={1} clickBtn={toClickBtn}/>
                     <Button label={'2'} value={2} clickBtn={toClickBtn}/>
                     <Button label={'3'} value={3} clickBtn={toClickBtn}/>
-                    <Button label={'+'}/>
+                    <Button 
+                        label={'+'}
+                        clickBtn={toSumNumbers}
+                    />
                     <Button label={'D'}/>
                     <Button label={'0'} value={0} clickBtn={toClickBtn}/>
                     <Button label={','}/>
