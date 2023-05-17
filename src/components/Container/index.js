@@ -5,26 +5,63 @@ import './Container.css';
 
 const Container = () => {
 
-    const [currentNumber, setCurrentNumber] = useState('');
+    const [currentNumber, setCurrentNumber] = useState('0');
     const [firstNumber, setFirstNumber] = useState('0');
-
-    const toClickBtn = (evento) => {
-        evento.preventDefault();
-        setCurrentNumber(prev => `${prev}${evento.target.value}`);
-    };
 
     const toClickClear = () => {
         setCurrentNumber('0');
     };
 
-    const toSumNumbers = () => {
-        if(firstNumber === '0'){
-            setFirstNumber(currentNumber);
-            toClickClear();
-        }else{
-            const sum = Number(firstNumber)+Number(currentNumber);
-            setCurrentNumber(String(sum));
+    const toClickBtn = (evento) => {
+        evento.preventDefault();
+        setCurrentNumber(prev => `${prev==='0'?'':prev}${evento.target.value}`);
+    };
+
+    const toCalculate = (evento) => {
+        let calc = 0;
+        switch (evento.target.value){
+            case '+':
+                if(firstNumber === '0'){
+                    setFirstNumber(currentNumber);
+                    toClickClear();
+                }else{
+                    calc = Number(firstNumber) + Number(currentNumber);
+                    setCurrentNumber(String(calc));
+                    setFirstNumber('0');
+                }
+                break;
+            case '-':
+                if(firstNumber === '0'){
+                    setFirstNumber(currentNumber);
+                    toClickClear();
+                }else{
+                    calc = Number(firstNumber) - Number(currentNumber);
+                    setCurrentNumber(String(calc));
+                    setFirstNumber('0');
+                }
+                break;
+            case 'x':
+                if(firstNumber === '0'){
+                    setFirstNumber(currentNumber);
+                    toClickClear();
+                }else{
+                    calc = Number(firstNumber) * Number(currentNumber);
+                    setCurrentNumber(String(calc));
+                    setFirstNumber('0');
+                }
+                break;
+            case '/':
+                console.log("Dividir");
+                break;
+            case '=':
+                console.log("First -> ", firstNumber);
+                console.log("Current -> ", currentNumber);
+                console.log("Resultado");
+                break;
+            default:
+                console.log("botão default")
         }
+        
     };
 
     return(
@@ -33,28 +70,25 @@ const Container = () => {
                 <Input value={currentNumber}/>
                 <div className='content__btn'>
                     <Button label={'C'} clickBtn={toClickClear}/>
-                    <Button label={'<'}/>
-                    <Button label={'%'}/>
-                    <Button label={'/'}/>
+                    <Button label={'<'} value={'<'} clickBtn={toCalculate}/>
+                    <Button label={'%'} value={'%'} clickBtn={toCalculate}/>
+                    <Button label={'/'} value={'/'} clickBtn={toCalculate}/>
                     <Button label={'7'} value={7} clickBtn={toClickBtn}/>
                     <Button label={'8'} value={8} clickBtn={toClickBtn}/>
                     <Button label={'9'} value={9} clickBtn={toClickBtn}/>
-                    <Button label={'x'}/>
+                    <Button label={'x'} value={'x'} clickBtn={toCalculate}/>
                     <Button label={'4'} value={4} clickBtn={toClickBtn}/>
                     <Button label={'5'} value={5} clickBtn={toClickBtn}/>
                     <Button label={'6'} value={6} clickBtn={toClickBtn}/>
-                    <Button label={'-'}/>
+                    <Button label={'-'} value={'-'} clickBtn={toCalculate}/>
                     <Button label={'1'} value={1} clickBtn={toClickBtn}/>
                     <Button label={'2'} value={2} clickBtn={toClickBtn}/>
                     <Button label={'3'} value={3} clickBtn={toClickBtn}/>
-                    <Button 
-                        label={'+'}
-                        clickBtn={toSumNumbers}
-                    />
+                    <Button label={'+'} value={'+'} clickBtn={toCalculate}/>
                     <Button label={'D'}/>
                     <Button label={'0'} value={0} clickBtn={toClickBtn}/>
                     <Button label={','}/>
-                    <Button label={'='}/>
+                    <Button label={'='} value={'='} clickBtn={toCalculate}/>
                 </div>
             </div>
         </section>
