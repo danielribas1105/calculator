@@ -5,6 +5,8 @@ import './Container.css';
 
 const Container = () => {
 
+    let calc = 0;
+
     const [currentNumber, setCurrentNumber] = useState('0');
     const [firstNumber, setFirstNumber] = useState('0');
 
@@ -18,18 +20,17 @@ const Container = () => {
     };
 
     const toCalculate = (evento) => {
-        let calc = 0;
         switch (evento.target.value){
             case '+':
                 if(firstNumber === '0'){
                     setFirstNumber(currentNumber);
                     toClickClear();
                 }else{
-                    calc = Number(firstNumber) + Number(currentNumber);
+                    calc = calc + Number(firstNumber) + Number(currentNumber);
                     setCurrentNumber(String(calc));
                     setFirstNumber('0');
                 }
-                break;
+            break;
             case '-':
                 if(firstNumber === '0'){
                     setFirstNumber(currentNumber);
@@ -39,7 +40,7 @@ const Container = () => {
                     setCurrentNumber(String(calc));
                     setFirstNumber('0');
                 }
-                break;
+            break;
             case 'x':
                 if(firstNumber === '0'){
                     setFirstNumber(currentNumber);
@@ -49,19 +50,20 @@ const Container = () => {
                     setCurrentNumber(String(calc));
                     setFirstNumber('0');
                 }
-                break;
+            break;
             case '/':
                 console.log("Dividir");
-                break;
-            case '=':
-                console.log("First -> ", firstNumber);
-                console.log("Current -> ", currentNumber);
-                console.log("Resultado");
-                break;
+            break;
+            case '%':
+                calc = Number(firstNumber)+
+                        (Number(firstNumber)*(Number(currentNumber)/100));
+                setCurrentNumber(String(calc));
+                setFirstNumber('0');
+            break;
             default:
-                console.log("botão default")
-        }
-        
+                console.log("botão default calculate")
+            break;
+        } 
     };
 
     return(
@@ -88,7 +90,7 @@ const Container = () => {
                     <Button label={'D'}/>
                     <Button label={'0'} value={0} clickBtn={toClickBtn}/>
                     <Button label={','}/>
-                    <Button label={'='} value={'='} clickBtn={toCalculate}/>
+                    <Button label={'='}/>
                 </div>
             </div>
         </section>
